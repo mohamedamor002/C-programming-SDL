@@ -12,6 +12,7 @@ void init(){
   if (SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_VIDEO) != 0) {
     printf("error ! %s", SDL_GetError());
   }
+  SDL_EnableUNICODE(1);
   TTF_Init();
   screen = SDL_SetVideoMode(SW , SH, 32,SDL_HWSURFACE | SDL_DOUBLEBUF);
   initMenu();

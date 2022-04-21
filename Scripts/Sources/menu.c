@@ -35,7 +35,7 @@ void initNameSelectionPage(){
     menu.currentMenuPage = 1;
     menu.currentActiveButtonIndex = -1;
     menu.number_of_buttons = 0;
-    nameText = initText("Filex", 800, 300, 0, 0, 0, "../../Fonts/Dancing.ttf", 35);
+    nameText = initText("", 500, 300, 0, 0, 0, "Fonts/Dancing.ttf", 75);
 }
 
 void displayMenu(SDL_Surface * screen){
@@ -117,12 +117,96 @@ void handleNameSelectionPageEvents(SDL_Event event, int * game_loop, int * curre
                 *game_loop = 0;
                 break;
             case SDL_KEYDOWN:
-                printf("%c\n", event.key.keysym.unicode);
                 switch(event.key.keysym.sym){
                     case SDLK_ESCAPE:
                         initHomePage();
                         break;
-                    
+                    case SDLK_a :
+                        update_text(&nameText, 'a');
+                        break;
+                    break ;
+                    case SDLK_b:  
+                        update_text(&nameText, 'b') ;
+                        break ;
+                    case SDLK_c:   
+                        update_text(&nameText, 'c') ;
+                        break ;
+                    case SDLK_d:  
+                        update_text(&nameText, 'd') ;
+                        break ;
+                    case SDLK_e:  
+                        update_text(&nameText, 'e') ;
+                        break ;
+                    case SDLK_f :  
+                        update_text(&nameText, 'f') ;
+                        break ;
+                    case SDLK_g :  
+                        update_text(&nameText, 'g') ;
+                        break ;
+                    case SDLK_h:  
+                        update_text(&nameText, 'h') ;
+                        break ;
+                    case SDLK_i:  
+                        update_text(&nameText, 'i') ;
+                        break ;
+                    case SDLK_j:  
+                        update_text(&nameText, 'j') ;
+                        break ;
+                    case SDLK_k :  
+                        update_text(&nameText, 'k') ;
+                        break ;
+                    case SDLK_l:  
+                        update_text(&nameText, 'l') ;
+                        break ;
+                    case SDLK_m :  
+                        update_text(&nameText, 'm') ;
+                        break ;
+                    case SDLK_n :  
+                        update_text(&nameText, 'n') ;
+                        break ;
+                    case SDLK_o:  
+                        update_text(&nameText, 'o') ;
+                        break ;
+                    case SDLK_p:  
+                        update_text(&nameText, 'p') ;
+                        break ;
+                    case SDLK_q :  
+                        update_text(&nameText, 'q') ;
+                        break ;
+                    case SDLK_r:  
+                        update_text(&nameText, 'r') ;
+                        break ;
+                    case SDLK_s:  
+                        update_text(&nameText, 's') ;
+                        break ;
+                    case SDLK_t:  
+                        update_text(&nameText, 't') ;
+                        break ;
+                    case SDLK_u:  
+                        update_text(&nameText, 'u') ;
+                        break ;
+                    case SDLK_v:  
+                        update_text(&nameText, 'v') ;
+                        break ;
+                    case SDLK_w:  
+                        update_text(&nameText, 'w') ;
+                        break ;
+                    case SDLK_x:  
+                        update_text(&nameText, 'x') ;
+                        break ;
+                    case SDLK_y:  
+                        update_text(&nameText, 'y') ;
+                        break ;
+                    case SDLK_z:  
+                        update_text(&nameText, 'z') ;
+                        break ;
+                    case SDLK_SPACE: 
+                        update_text(&nameText, ' ') ;
+                        break ;
+                    case SDLK_RETURN :
+                        if (nameText.text_length != 0)
+                            *currentPage = 1;
+                        break ;
                 }
                 break;           
         }

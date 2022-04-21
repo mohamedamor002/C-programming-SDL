@@ -12,9 +12,10 @@ typedef struct {
     SDL_Surface * surface ;
     SDL_Color color ;
     char text_string[50];
+    int text_length; 
 } Text; 
 
 
 Text initText(char * text_string, int x, int y, int r, int g, int b, char * font, int font_size);
 void display_text(Text * t, SDL_Surface* screen );
-void update_text(Text * t, char * new_text_string);
+void update_text(Text * t, char new_text_char);
