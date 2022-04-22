@@ -14,17 +14,6 @@
 
 #include <SDL/SDL_mixer.h>
 
-typedef struct {
-  int nb; //  player number
-  SDL_Surface * spritesheet;
-  SDL_Rect pos; // position of the player in the background
-  int direction;
-  SDL_Rect pos_sprite;
-  double speed, acceleration;
-  int speedV;
-  int val;
-}
-player;
 
 typedef struct {
   SDL_Surface * image_life[4];
@@ -50,7 +39,23 @@ typedef struct {
 }
 score;
 
-void initplayer(player * p);
+typedef struct {
+  int nb; //  player number
+  SDL_Surface * spritesheet;
+  SDL_Rect pos; // position of the player in the background
+  int direction;
+  SDL_Rect pos_sprite;
+  double speed, acceleration;
+  int speedV;
+  int val;
+  life l; 
+  score s; 
+}
+player;
+
+
+void initPlayerSingle(player * p);
+void initPlayerMulti(player * p, int p_index);
 void displayplayer(player p, SDL_Surface * screen);
 void moveplayer(player * p, int dt);
 void animeplayer(player * p);
@@ -58,8 +63,8 @@ void jump(player * p);
 void check(player * p, int dir1);
 score init_score();
 void manage_score(score * s);
-void update(player * p, int right, int left, int up);
+void update_player(player * p, int right, int left, int up);
 void update_acceleration(player * p);
 life init_life();
 void manage_life(life * l, int * lifes);
-void display_all(life l, score s, SDL_Surface * screen);
+void display_all(player p, SDL_Surface * screen);

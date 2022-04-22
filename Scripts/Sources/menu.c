@@ -1,5 +1,6 @@
 #include "../Headers/menu.h"
 
+
 char * MENU_BG_PATHS[2] = {
     "Media/Menu/menu_bg1.png",
     "Media/Menu/menu_bg2.png",
@@ -9,6 +10,7 @@ Menu menu;
 Text nameText;
 
 void initMenu(){
+    
     initHomePage();
     for (int i = 0; i < 2; i++){
         menu.bg[i].rect.x = 0;
@@ -206,6 +208,9 @@ void handleNameSelectionPageEvents(SDL_Event event, int * game_loop, int * curre
                     case SDLK_RETURN :
                         if (nameText.text_length != 0)
                             *currentPage = 1;
+                            menu.currentMenuPage = 0;
+                            menu.currentActiveButtonIndex = 0;
+                            menu.number_of_buttons = 4;
                         break ;
                 }
                 break;           

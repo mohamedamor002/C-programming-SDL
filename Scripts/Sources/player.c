@@ -1,8 +1,10 @@
-#include "player.h"
+#include "../Headers/player.h"
 
+int multi = 0;
 
-void initplayer(player * p) {
-  p -> spritesheet = IMG_Load("../../Media/Player/perso.png");
+void initPlayerSingle(player * p) {
+  multi = 0;
+  p -> spritesheet = IMG_Load("Media/Player/perso.png");
 
   p -> pos.x = 50;
   p -> pos.y = 490;
@@ -17,7 +19,32 @@ void initplayer(player * p) {
   p -> pos_sprite.y = 200;
   p -> pos_sprite.h = 100;
   p -> pos_sprite.w = 100;
+
+  p -> s =  init_score();
+  p -> l =  init_life();
+
 }
+
+void initPlayerMulti(player * p, int p_index) {
+  multi = 1;
+  p -> spritesheet = IMG_Load("Media/Player/perso.png");
+
+  p -> pos.x = p_index == 0 ? 50 : 50 + ( (int) 1916 / 2) ;
+  p -> pos.y = 490;
+
+  p -> direction = 2; // right
+
+  p -> acceleration = 0;
+  p -> speed = 0;
+  p -> speedV = 0;
+
+  p -> pos_sprite.x = 0;
+  p -> pos_sprite.y = 200;
+  p -> pos_sprite.h = 100;
+  p -> pos_sprite.w = 100;
+}
+
+
 
 void displayplayer(player p, SDL_Surface * screen) {
   SDL_BlitSurface(p.spritesheet, & p.pos_sprite, screen, & p.pos);
@@ -28,8 +55,12 @@ void moveplayer(player * p, int dt) {
   dx = 0.5 * p -> acceleration * dt * dt + p -> speed * dt;
   if (p -> direction == 0) // || (p->direction==2)
   {
+    if ((multi = 1 && p->pos.x >= 1916 / 4) || (!multi && p->pos.x >= 1916 / 2))
+        return; 
     p -> pos.x += dx;
   } else if (p -> direction == 1) {
+    if ((multi = 1 && p->pos.x <= 50) || (!multi && p->pos.x <= 50))
+        return;
     p -> pos.x -= dx;
   }
 }
@@ -48,7 +79,7 @@ void jump(player * p) {
   }
 }
 
-void update(player * p, int right, int left, int up) {
+void update_player(player * p, int right, int left, int up) {
   if (right == 1) {
     p -> speed = 10;
     p -> acceleration += 0.5;
@@ -92,7 +123,7 @@ void check(player * p, int dir1) {
 }
 score init_score() {
   score s;
-  s.font = TTF_OpenFont("Fonts/Dancing.ttf", 25);
+  s.font = TTF_OpenFont("Fonts/Dancing.ttf", 50);
   s.white.r = 255;
   s.white.g = 255;
   s.white.b = 255;
@@ -118,7 +149,7 @@ void manage_score(score * s) {
 
 life init_life() {
   life l;
-  l.text = TTF_OpenFont("Fonts/Dancing.ttf", 25);
+  l.text = TTF_OpenFont("Fonts/Dancing.ttf", 50);
   l.color.r = 255;
   l.color.g = 255;
   l.color.b = 255;
@@ -128,10 +159,10 @@ life init_life() {
   TTF_CloseFont(l.text);
 
   /*LIFE player 1*/
-  l.image_life[0] = IMG_Load("outils/heart3.png");
-  l.image_life[1] = IMG_Load("outils/heart2.png");
-  l.image_life[2] = IMG_Load("outils/heart1.png");
-  l.image_life[3] = IMG_Load("outils/heart0.png");
+  l.image_life[0] = IMG_Load("Media/Game/heart3.png");
+  l.image_life[1] = IMG_Load("Media/Game/heart2.png");
+  l.image_life[2] = IMG_Load("Media/Game/heart1.png");
+  l.image_life[3] = IMG_Load("Media/Game/heart0.png");
   /* POSITION OF LIFE1*/
   l.position_life.x = 590;
   l.position_life.y = 1;
@@ -153,10 +184,9 @@ void manage_life(life * l, int * lifes) {
   }
 
 }
-void display_all(life l, score s, SDL_Surface * screen) {
-  SDL_BlitSurface(l.image_life[l.val], NULL, screen, ( & l.position_life));
-  SDL_BlitSurface(l.texte, NULL, screen, & (l.position_text));
-  SDL_BlitSurface(s.texte1, NULL, screen, & s.position_textt);
-  SDL_BlitSurface(s.number1, NULL, screen, & s.position_number);
-  SDL_Delay(50);
+void display_all(player p, SDL_Surface * screen) {
+  SDL_BlitSurface(p.l.image_life[p.l.val], NULL, screen, ( & p.l.position_life));
+  SDL_BlitSurface(p.l.texte, NULL, screen, & (p.l.position_text));
+  SDL_BlitSurface(p.s.texte1, NULL, screen, & p.s.position_textt);
+  SDL_BlitSurface(p.s.number1, NULL, screen, & p.s.position_number);
 }
