@@ -7,20 +7,26 @@ typedef struct {
 } menu_bg;
 
 typedef struct {
-    int button_ids[4];
-    menu_bg bg[2];
+    int button_ids[8];
+    menu_bg bg[3];
+    int lamin_but;
     int currentMenuPage; 
     int number_of_buttons;
     int currentActiveButtonIndex;
+    int startButtonIndex;
+    int nb;
+    float volume;
 } Menu;
 
 
 void initMenu();
 void initHomePage();
 void initNameSelectionPage();
+void initSettingsPage();
 void displayMenu( SDL_Surface * screen);
 void handleMenuHomeButtonClick( SDL_Event event, int * game_loop);
-void handleMenuEvents( SDL_Event event, int * game_loop, int * currentPage);
-void handleHomePageEvents(SDL_Event event, int * game_loop, int * currentPage);
+void handleMenuEvents( SDL_Event event, int * game_loop, int * currentPage, int * nb, int * tiktakon);
+void handleHomePageEvents(SDL_Event event, int * game_loop, int * currentPage, int * tiktakon);
 void handleNameSelectionPageEvents(SDL_Event event, int * game_loop, int * currentPage);
-void handleMenuEvents(SDL_Event event, int * game_loop, int * currentPage);
+void handleSettingsPageEvents(SDL_Event event, int * game_loop, int * currentPage, int * nb);
+void handleMenuSettingsButtonClick(SDL_Event event, int * game_loop, int * nb);

@@ -26,7 +26,6 @@ void handlePlayerMovement(SDL_Event event, int * game_loop, int * currentPage){
                     break;
                 case SDLK_ESCAPE:
                     *currentPage = 0;
-                    initGame(game.nb_players);
         }
         break;
         case SDL_KEYUP:
@@ -50,14 +49,19 @@ void handlePlayerMovement(SDL_Event event, int * game_loop, int * currentPage){
 }
 
 
-void initGame(int nb_players){
+void initGame(int nb_players, char * player_name){
+    strcpy(game.player_name, player_name);
     game.nb_players = nb_players;
-    if (nb_players == 1)
+    if (nb_players == 1){
         initPlayerSingle(&game.players[0]);
-    else
-        for (int i = 0; i < nb_players; i++)
+        game.mini_map[0] = init_minimap(0, 0);
+        initEnemy(&game.enemies[0], 0);
+    } else
+        for (int i = 0; i < nb_players; i++){
             initPlayerMulti(&game.players[i], i);
-    
+            game.mini_map[i] = init_minimap(1, i);
+            initEnemy(&game.enemies[i], i);
+        }
     if (nb_players == 1)
         initBackgroundSingle(&game.bg[0]);
     else 
@@ -69,7 +73,9 @@ void displayGame(SDL_Surface * screen){
     for (int i = 0; i < game.nb_players; i++){
         displayBackground(game.bg[i], screen);
         displayplayer(game.players[i] ,screen);
+        display_minimap(game.mini_map[i], screen);
         display_all(game.players[i], screen);
+        displayEnemy(game.enemies[i], screen);
     }
 }
 
@@ -81,8 +87,14 @@ void updateGame(Uint32 tick_start){
         Uint32 dt = SDL_GetTicks()- tick_start;
         moveplayer(&game.players[i],dt);
         animeplayer(&game.players[i]);
-        check(&game.players[i],direction[i]) ;
+        moveEnemy(&game.enemies[i], i);
+        animateEnemy(&game.enemies[i]);
+        check(&game.players[i],direction[i], &up[i]) ;
+        checkcollision(&game.players[i], game.enemies[i]);
+        manage_life(&game.players[i].l);
+        manage_score(&game.players[i], i);
         scrollBackground(&game.bg[i], game.players[i].direction, game.players[i].acceleration, game.players[i].speed, dt);
+        update_mini(&game.mini_map[i], &game.players[i], game.bg[i], i);
     }
 }
 

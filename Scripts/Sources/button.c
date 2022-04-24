@@ -1,6 +1,6 @@
 #include "../Headers/button.h"
 
-Button currentButtons[4];
+Button currentButtons[20];
 int number_of_buttons = 0;
 
 int initButton(int x, int y, int w, int h, char * p1, char * p2){
@@ -37,4 +37,11 @@ int checkButtonHover(int b, int x, int y){
 
 void updateButtonState(int button_id, int state){
   currentButtons[button_id].current_state = state;
+}
+
+void liberateAllButtons(){
+  for (int i = 0; i < number_of_buttons; i++){
+    SDL_FreeSurface(currentButtons[i].img[0]);
+    SDL_FreeSurface(currentButtons[i].img[1]);
+  }
 }

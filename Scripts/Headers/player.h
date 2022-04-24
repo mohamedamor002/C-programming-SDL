@@ -50,6 +50,8 @@ typedef struct {
   int val;
   life l; 
   score s; 
+  int multi;
+  int engima;
 }
 player;
 
@@ -60,11 +62,11 @@ void displayplayer(player p, SDL_Surface * screen);
 void moveplayer(player * p, int dt);
 void animeplayer(player * p);
 void jump(player * p);
-void check(player * p, int dir1);
-score init_score();
-void manage_score(score * s);
+void check(player * p, int dir1, int * up);
+score init_score(int p_index);
+void manage_score(player * p, int p_index);
 void update_player(player * p, int right, int left, int up);
 void update_acceleration(player * p);
-life init_life();
-void manage_life(life * l, int * lifes);
+life init_life(int p_index);
+void manage_life(life * l);
 void display_all(player p, SDL_Surface * screen);

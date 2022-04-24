@@ -3,9 +3,9 @@
 void initBackgroundSingle(Background * bg){
     bg->rect.x = 0;
     bg->rect.y = 0;
+    bg->bg_img = IMG_Load("Media/Game/background.png"); 
     bg->rect.w =  bg->bg_img->w;
     bg->rect.h = 914;
-    bg->bg_img = IMG_Load("Media/Game/background.png"); 
     bg->camera.x = 0;
     bg->camera.y = 0;
     bg->camera.w = 1916;
@@ -22,7 +22,6 @@ void initBackgroundMulti(Background * bg, int bg_index){
     bg->camera.y = 0;
     bg->camera.w = 1916 / 2;
     bg->camera.h = 914;
-
 }
 
 void displayBackground(Background bg, SDL_Surface * screen){

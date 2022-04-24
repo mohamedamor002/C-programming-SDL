@@ -18,3 +18,4 @@ int initButton(int x, int y, int w, int h, char * p1, char * p2);
 void displayButton(int b, SDL_Surface * screen);
 int checkButtonHover(int b, int x, int y);
 void updateButtonState(int button_id, int state);
+void liberateAllButtons();
