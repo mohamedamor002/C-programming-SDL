@@ -87,6 +87,10 @@ void checkcollision(player * P, Enemy E) //P is the player who will look dead if
   if ((collision == 1)) {
     P -> l.val -- ;
 	P -> s . value_score -= 500;
+  if (P -> nb == 0)
     P -> pos.x = 50;
+  else 
+    P -> pos.x = (1916/2) + 50;
+
   }
 }

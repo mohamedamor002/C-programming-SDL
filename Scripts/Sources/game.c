@@ -25,11 +25,21 @@ void handlePlayerMovement(SDL_Event event, int * game_loop, int * currentPage){
                 case SDLK_UP:
                     up[0] = 1;
                     break;
+                case SDLK_d:
+                    right[1] = 1;
+                    break;
+                case SDLK_q:
+                    left[1] = 1;
+                    break;
+                case SDLK_z:
+                    up[1] = 1;
+                    break;
                 case SDLK_ESCAPE:
                     *currentPage = 0;
         }
         break;
         case SDL_KEYUP:
+            
             switch (event.key.keysym.sym) {
                 case SDLK_RIGHT:
                     right[0] = 0;
@@ -44,6 +54,19 @@ void handlePlayerMovement(SDL_Event event, int * game_loop, int * currentPage){
                 case SDLK_UP:
                     direction[0] = 0;
                     break;
+                case SDLK_d:
+                    right[1] = 0;
+                    direction[1] = 2;
+                    game.players[1].speed = 0;
+                    break;
+                case SDLK_q:
+                    left[1] = 0;
+                    direction[1] = 3;
+                    game.players[1].speed = 0;
+                    break;
+                case SDLK_z:
+                    direction[1] = 0;
+                    break;    
             }
         break;
     }

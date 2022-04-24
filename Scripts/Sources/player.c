@@ -26,6 +26,7 @@ void initPlayerSingle(player * p) {
   p -> s =  init_score(0);
   p -> l =  init_life(0);
   p -> t = initTimer(0);
+  p -> nb = 0;
 
 }
 
@@ -33,6 +34,7 @@ void initPlayerMulti(player * p, int p_index) {
   start_time = SDL_GetTicks();
   multi = 1;
   p -> multi = 1;
+  p -> nb = p_index;
   p -> spritesheet = IMG_Load("Media/Player/perso.png");
 
   p -> pos.x = p_index == 0 ? 50 : 50 + ( (int) 1916 / 2) ;
@@ -67,12 +69,16 @@ void moveplayer(player * p, int dt) {
   dx = 0.5 * p -> acceleration * dt * dt + p -> speed * dt;
   if (p -> direction == 0) // || (p->direction==2)
   {
-    if ((multi = 1 && p->pos.x >= 1916 / 4) || (!multi && p->pos.x >= 1916 / 2))
+    if ((multi == 1 && p->pos.x >= 1916 / 4 && p->nb == 0) || (!multi && p->pos.x >= 1916 / 2))
         return; 
+    else if (multi == 1 && p->pos.x >= (1916 / 4) * 3 && p->nb == 1 )
+        return;
     p -> pos.x += dx;
   } else if (p -> direction == 1) {
-    if ((multi = 1 && p->pos.x <= 50) || (!multi && p->pos.x <= 50))
-        return;
+    if ((multi == 1 && p->pos.x <= 50 && p->nb == 0) || (!multi && p->pos.x <= 50 && p->nb == 0))
+      return;
+    else if (multi == 1 && p->pos.x <= (1916 / 2) + 50 && p->nb ==1 )
+      return; 
     p -> pos.x -= dx;
   }
 }

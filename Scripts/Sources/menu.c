@@ -15,7 +15,7 @@ Text nameText;
 Text Volume;
 
 void initMenu(){
-    //initSound("Media/music.mp3");
+    initSound("Media/music.mp3");
     initHomePage();
     menu.lamin_but = initButton(1700, 800, 100, 100, "", "");
     for (int i = 0; i < 3; i++){
