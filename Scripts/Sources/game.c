@@ -8,6 +8,7 @@ int up[2] = {0, 0};
 int down[2] = {0, 0};
 int direction[2] = {2, 2};
 
+
 void handlePlayerMovement(SDL_Event event, int * game_loop, int * currentPage){
     switch (event.type) {
         case SDL_QUIT:
@@ -92,7 +93,12 @@ void updateGame(Uint32 tick_start){
         check(&game.players[i],direction[i], &up[i]) ;
         checkcollision(&game.players[i], game.enemies[i]);
         manage_life(&game.players[i].l);
+        if (game.players[i].l.val == 1)
+            initGame(game.nb_players, game.player_name);
+        if ((game.bg[0].camera.x >= 14700) && (game.players[i].l.val > 1))
+            initGame(game.nb_players, game.player_name);
         manage_score(&game.players[i], i);
+        updateTimer(&game.players[i].t);
         scrollBackground(&game.bg[i], game.players[i].direction, game.players[i].acceleration, game.players[i].speed, dt);
         update_mini(&game.mini_map[i], &game.players[i], game.bg[i], i);
     }

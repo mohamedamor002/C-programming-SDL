@@ -1,8 +1,10 @@
 #include "../Headers/player.h"
 
 static int multi = 0;
+int start_time; 
 
 void initPlayerSingle(player * p) {
+  start_time = SDL_GetTicks();
   multi = 0;
   p -> multi = 0;
   p -> spritesheet = IMG_Load("Media/Player/perso.png");
@@ -23,10 +25,12 @@ void initPlayerSingle(player * p) {
 
   p -> s =  init_score(0);
   p -> l =  init_life(0);
+  p -> t = initTimer(0);
 
 }
 
 void initPlayerMulti(player * p, int p_index) {
+  start_time = SDL_GetTicks();
   multi = 1;
   p -> multi = 1;
   p -> spritesheet = IMG_Load("Media/Player/perso.png");
@@ -47,6 +51,8 @@ void initPlayerMulti(player * p, int p_index) {
 
   p -> s =  init_score(p_index);
   p -> l =  init_life(p_index);
+
+  p -> t = initTimer(p_index);
 
 }
 
@@ -204,4 +210,36 @@ void display_all(player p, SDL_Surface * screen) {
   SDL_BlitSurface(p.l.texte, NULL, screen, & (p.l.position_text));
   SDL_BlitSurface(p.s.texte1, NULL, screen, & p.s.position_textt);
   SDL_BlitSurface(p.s.number1, NULL, screen, & p.s.position_number);
+  SDL_BlitSurface(p.t.texte1, NULL, screen, & p.t.position_textt);
+}
+
+Timer initTimer(int p_index){
+  Timer t;
+  Uint32 timeElapsed = (SDL_GetTicks() - start_time) / 1000;
+  char timee[50];
+  sprintf(timee, "%d", timeElapsed);
+  t.font = TTF_OpenFont("Fonts/Dancing.ttf", 25);
+  t.white.r = 0;
+  t.white.g = 0;
+  t.white.b = 0;
+  char x[50] = "Time: ";
+  strcat(x , timee);
+  t.texte1 = TTF_RenderText_Blended(t.font, x, t.white);
+  t.position_textt.y = 150;
+  if (!multi){
+    t.position_textt.x = 590;
+  } else {
+    t.position_textt.x = 590 + ((1916 / 2) * p_index );
+  }
+  return t;
+
+}
+
+void updateTimer(Timer * t){
+  Uint32 timeElapsed = (SDL_GetTicks() - start_time) / 1000;
+  char timee[50];
+  sprintf(timee, "%d", timeElapsed);
+  char x[50] = "Time: ";
+  strcat(x , timee);
+  t->texte1 = TTF_RenderText_Blended(t->font, x, t->white);
 }

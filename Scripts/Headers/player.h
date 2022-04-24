@@ -40,6 +40,17 @@ typedef struct {
 score;
 
 typedef struct {
+  char number[20];
+  SDL_Rect position_textt;
+  SDL_Rect position_number;
+  TTF_Font * font;
+  SDL_Color white;
+  SDL_Surface * texte1;
+  SDL_Surface * number1;
+} Timer; 
+
+
+typedef struct {
   int nb; //  player number
   SDL_Surface * spritesheet;
   SDL_Rect pos; // position of the player in the background
@@ -50,10 +61,12 @@ typedef struct {
   int val;
   life l; 
   score s; 
+  Timer t;
   int multi;
   int engima;
 }
 player;
+
 
 
 void initPlayerSingle(player * p);
@@ -70,3 +83,5 @@ void update_acceleration(player * p);
 life init_life(int p_index);
 void manage_life(life * l);
 void display_all(player p, SDL_Surface * screen);
+Timer initTimer(int p_index);
+void updateTimer(Timer * t);
