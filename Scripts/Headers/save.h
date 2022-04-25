@@ -5,18 +5,15 @@
 
 #include <stdio.h>
 
+typedef struct {
+    char names[20][50];
+    int scores[20]; 
+    int xpos[20];
+    int xcam[20];
+    int nb_saves; 
+} saved; 
 
 
-void save(char * name, int score, int xcam, int xp){
-
-}
-
-void load(char * name,char nameS[50], char scoreS[50], char xcam[50], char xp[50]){
-    FILE *f;
-    
-    do {
-        fscanf(f, "%s , %s , %s , %s\n", nameS, scoreS, xcam, xp);
-    } while ((nameS != name) && (nameS != ""));
-
-    printf("%s , %s , %s , %s\n", nameS, scoreS, xcam, xp);
-}
+void save(saved * s, char * name, int score, int xcam, int xp);
+saved load();
+int getBestScore(saved s);

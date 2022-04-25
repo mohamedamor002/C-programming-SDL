@@ -1,6 +1,6 @@
 #include "minimap.h"
 
-#define posMax 610
+#define posMax 700
 #define posMin 300
 
 typedef struct {
@@ -21,5 +21,4 @@ void animateEnemy(Enemy * E);
 void moveEnemy(Enemy * E, int index);
 int CollisonBB(player P, Enemy E);
 void checkcollision(player * P, Enemy E);
-void moveIA(Enemy * E, SDL_Rect posPlayer); //still not done
-
+void moveIA(player * P, Enemy * E);

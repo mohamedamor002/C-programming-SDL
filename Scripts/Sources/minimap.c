@@ -1,7 +1,7 @@
 #include "../Headers/minimap.h"
 
 
-mini init_minimap(int mp, int p_index) {
+mini init_minimap(int mp, int p_index, int posx) {
   mini M;
   M.multi = mp;
   M.img = IMG_Load("Media/Minimap/mini.png");
@@ -15,7 +15,7 @@ mini init_minimap(int mp, int p_index) {
   M.posp.y = 280;
   M.posp.w = 20;
   M.posp.h = 20;
-  M.camera.x = 0;
+  M.camera.x = (posx * 5143) / 16116;
   M.camera.y = 0;
   M.camera.w = 500;
   M.camera.h = 300;

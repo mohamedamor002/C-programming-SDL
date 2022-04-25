@@ -8,7 +8,7 @@ typedef struct {
 
 typedef struct {
     int button_ids[8];
-    menu_bg bg[3];
+    menu_bg bg[4];
     int lamin_but;
     int currentMenuPage; 
     int number_of_buttons;
@@ -23,6 +23,7 @@ void initMenu();
 void initHomePage();
 void initNameSelectionPage();
 void initSettingsPage();
+void initBestScorePage();
 void displayMenu( SDL_Surface * screen);
 void handleMenuHomeButtonClick( SDL_Event event, int * game_loop);
 void handleMenuEvents( SDL_Event event, int * game_loop, int * currentPage, int * nb, int * tiktakon);
@@ -30,3 +31,4 @@ void handleHomePageEvents(SDL_Event event, int * game_loop, int * currentPage, i
 void handleNameSelectionPageEvents(SDL_Event event, int * game_loop, int * currentPage);
 void handleSettingsPageEvents(SDL_Event event, int * game_loop, int * currentPage, int * nb);
 void handleMenuSettingsButtonClick(SDL_Event event, int * game_loop, int * nb);
+void handleBestScorePageEvents(SDL_Event event, int * game_loop, int * currentPage);

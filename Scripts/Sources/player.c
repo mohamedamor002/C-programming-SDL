@@ -3,13 +3,14 @@
 static int multi = 0;
 int start_time; 
 
-void initPlayerSingle(player * p) {
+
+void initPlayerSingle(player * p, int posx, int score) {
   start_time = SDL_GetTicks();
   multi = 0;
   p -> multi = 0;
   p -> spritesheet = IMG_Load("Media/Player/perso.png");
-
-  p -> pos.x = 50;
+  // def 50
+  p -> pos.x = posx;
   p -> pos.y = 490;
 
   p -> direction = 2; // right
@@ -24,6 +25,7 @@ void initPlayerSingle(player * p) {
   p -> pos_sprite.w = 100;
 
   p -> s =  init_score(0);
+  p -> s.value_score = score;
   p -> l =  init_life(0);
   p -> t = initTimer(0);
   p -> nb = 0;

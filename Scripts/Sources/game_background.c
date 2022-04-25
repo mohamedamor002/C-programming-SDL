@@ -1,12 +1,13 @@
 #include "../Headers/game_background.h"
 
-void initBackgroundSingle(Background * bg){
+void initBackgroundSingle(Background * bg, int session){
     bg->rect.x = 0;
     bg->rect.y = 0;
     bg->bg_img = IMG_Load("Media/Game/background.png"); 
     bg->rect.w =  bg->bg_img->w;
     bg->rect.h = 914;
-    bg->camera.x = 0;
+    // default 0
+    bg->camera.x = session;
     bg->camera.y = 0;
     bg->camera.w = 1916;
     bg->camera.h = 914;

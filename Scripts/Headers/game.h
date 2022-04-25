@@ -1,5 +1,6 @@
 
 #include "enemy.h"
+#include "save.h"
 
 typedef struct  {
     int nb_players; 
@@ -12,7 +13,7 @@ typedef struct  {
 } Game; 
 
 void handlePlayerMovement(SDL_Event event, int * game_loop, int * currentPage);
-void initGame(int nb_players, char * player_name);
+void initGame(int nb_players, char * player_name, saved * s);
 void displayGame(SDL_Surface * screen);
 void updateGame(Uint32 tick_start);
 void handleGameEvents(SDL_Event event, int * game_loop, int * currentPage);

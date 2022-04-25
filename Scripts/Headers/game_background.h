@@ -23,7 +23,7 @@ typedef struct {
 } Background;
 
 
-void initBackgroundSingle(Background * bg);
+void initBackgroundSingle(Background * bg, int session);
 void initBackgroundMulti(Background * bg, int bg_index);
 void displayBackground(Background bg, SDL_Surface * screen);
 void scrollBackground(Background * bg, int direction, double acc, double speed, int dt);

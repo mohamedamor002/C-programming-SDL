@@ -4,21 +4,27 @@
 
 //#include "../TicTacToe/tictac.h"
 
-char * MENU_BG_PATHS[3] = {
+char * MENU_BG_PATHS[4] = {
     "Media/Menu/menu_bg1.png",
     "Media/Menu/menu_bg2.png",
-    "Media/Menu/menu_bg3.png"
+    "Media/Menu/menu_bg3.png",
+    "Media/Menu/menu_bg4.png",
 };
 
 Menu menu; 
 Text nameText;
 Text Volume;
+Text BestScore; 
+
+saved s; 
 
 void initMenu(){
+    char hl[50] = "ahmad";
+    s = load();
     initSound("Media/music.mp3");
     initHomePage();
     menu.lamin_but = initButton(1700, 800, 100, 100, "", "");
-    for (int i = 0; i < 3; i++){
+    for (int i = 0; i < 4; i++){
         menu.bg[i].rect.x = 0;
         menu.bg[i].rect.y = 0;
         menu.bg[i].rect.w = 1916;
@@ -62,6 +68,19 @@ void initSettingsPage(){
     Volume = initText("Volume", 820, 480, 255, 255, 255, "Fonts/Dancing.ttf", 75);
 }
 
+void initBestScorePage(){
+    menu.currentMenuPage = 3;
+    menu.currentActiveButtonIndex = 0;
+    menu.number_of_buttons = 0;
+    menu.startButtonIndex = 0;
+    int best = getBestScore(s);
+    char text[100]; 
+    sprintf(text, "%s : %d", s.names[best], s.scores[best]);
+    if (BestScore.font == NULL) 
+        BestScore = initText(text, 670, 480, 200, 200, 200, "Fonts/Dancing.ttf", 100);
+}
+
+
 void displayMenu(SDL_Surface * screen){
     SDL_BlitSurface(menu.bg[menu.currentMenuPage].img, NULL, screen, &menu.bg[menu.currentMenuPage].rect);
     for (int i = menu.startButtonIndex; i < menu.number_of_buttons + menu.startButtonIndex; i++){
@@ -75,6 +94,8 @@ void displayMenu(SDL_Surface * screen){
         display_text(&nameText, screen);
     else if (menu.currentMenuPage == 2)
         display_text(&Volume, screen);
+    else if (menu.currentMenuPage == 3)
+        display_text(&BestScore, screen);
     
 }   
 
@@ -84,6 +105,7 @@ void handleMenuHomeButtonClick( SDL_Event event, int * game_loop){
             initNameSelectionPage();
             break;
         case 1:
+            initBestScorePage();
             break;
         case 2:
             initSettingsPage();
@@ -269,11 +291,26 @@ void handleNameSelectionPageEvents(SDL_Event event, int * game_loop, int * curre
                             menu.currentMenuPage = 0;
                             menu.currentActiveButtonIndex = 0;
                             menu.number_of_buttons = 4;
-                            initGame(menu.nb, nameText.text_string);
+                            initGame(menu.nb, nameText.text_string, &s);
                         }
                         break ;
                 }
                 break;           
+        }
+    }
+}
+
+void handleBestScorePageEvents(SDL_Event event, int * game_loop, int * currentPage){
+    while(SDL_PollEvent(&event)){
+        switch(event.type)
+        {   
+            case SDL_QUIT:
+                *game_loop = 0;
+                break;
+            case SDL_KEYDOWN:
+                if (event.key.keysym.sym == SDLK_ESCAPE)
+                    initHomePage();
+                break;    
         }
     }
 }
@@ -318,6 +355,8 @@ void handleMenuEvents(SDL_Event event, int * game_loop, int * currentPage, int *
         handleNameSelectionPageEvents(event, game_loop, currentPage);
     } else if (menu.currentMenuPage == 2){
         handleSettingsPageEvents(event, game_loop, currentPage, nb);
+    } else if (menu.currentMenuPage == 3){
+        handleBestScorePageEvents(event, game_loop, currentPage);
     }
 }
 

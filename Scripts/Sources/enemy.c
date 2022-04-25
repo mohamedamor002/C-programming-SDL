@@ -94,3 +94,11 @@ void checkcollision(player * P, Enemy E) //P is the player who will look dead if
 
   }
 }
+
+void moveIA(player * P, Enemy * E){
+  if ((P->pos.x >= posMin) && (P->pos.x <= posMax))
+    if (P->pos.x - E ->pos.x > 0)
+      E -> direction = 0;
+    else if (P->pos.x - E ->pos.x <= 0)
+      E -> direction = 1;
+}
