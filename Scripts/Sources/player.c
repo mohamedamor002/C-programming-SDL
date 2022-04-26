@@ -5,6 +5,8 @@ int start_time;
 
 
 void initPlayerSingle(player * p, int posx, int score) {
+  p -> e = initEnigma(-1);
+  p -> enigma_up = 0;
   start_time = SDL_GetTicks();
   multi = 0;
   p -> multi = 0;
@@ -33,6 +35,8 @@ void initPlayerSingle(player * p, int posx, int score) {
 }
 
 void initPlayerMulti(player * p, int p_index) {
+  p -> e = initEnigma(p_index);
+  p -> enigma_up = 0;
   start_time = SDL_GetTicks();
   multi = 1;
   p -> multi = 1;

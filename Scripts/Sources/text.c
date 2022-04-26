@@ -22,7 +22,7 @@ void display_text(Text * t, SDL_Surface* screen ){
 }
 
 void update_text(Text * t, char new_text_char){
-   t->text_string[t->text_length - 1] = new_text_char;
-   t->text_string[t->text_length] = '\0';
+   t->text_string[t->text_length] = new_text_char;
+   t->text_string[t->text_length + 1] = '\0';
    t->text_length++;
 }

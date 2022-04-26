@@ -1,6 +1,6 @@
 #include "../Headers/button.h"
 
-Button currentButtons[20];
+Button currentButtons[30];
 int number_of_buttons = 0;
 
 int initButton(int x, int y, int w, int h, char * p1, char * p2){

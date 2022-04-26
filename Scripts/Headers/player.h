@@ -14,6 +14,8 @@
 
 #include <SDL/SDL_mixer.h>
 
+#include "enigma.h"
+
 
 typedef struct {
   SDL_Surface * image_life[4];
@@ -63,7 +65,8 @@ typedef struct {
   score s; 
   Timer t;
   int multi;
-  int engima;
+  Enigma e;
+  int enigma_up;
 }
 player;
 

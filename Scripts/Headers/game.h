@@ -17,4 +17,3 @@ void initGame(int nb_players, char * player_name, saved * s);
 void displayGame(SDL_Surface * screen);
 void updateGame(Uint32 tick_start);
 void handleGameEvents(SDL_Event event, int * game_loop, int * currentPage);
-void handleEnigmaEvents(SDL_Event event, int * game_loop, int * en);

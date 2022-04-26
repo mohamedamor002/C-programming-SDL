@@ -11,6 +11,9 @@ int direction[2] = {2, 2};
 saved * tops; 
 
 void handlePlayerMovement(SDL_Event event, int * game_loop, int * currentPage){
+    for (int i = 0; i < game.nb_players; i++)
+        if (game.players[i].enigma_up == 1)
+            handleEnigmaEvents(event, game_loop, &game.players[i].e, &game.players[i].enigma_up);
     switch (event.type) {
         case SDL_QUIT:
             *game_loop = 0;
@@ -107,6 +110,10 @@ void initGame(int nb_players, char * player_name, saved * s){
 
 void displayGame(SDL_Surface * screen){
     for (int i = 0; i < game.nb_players; i++){
+        if (game.players[i].enigma_up == 1){
+            displayEnigma(game.players[i].e, screen);
+            continue;
+        }
         displayBackground(game.bg[i], screen);
         displayplayer(game.players[i] ,screen);
         display_minimap(game.mini_map[i], screen);
@@ -129,11 +136,17 @@ void updateGame(Uint32 tick_start){
         check(&game.players[i],direction[i], &up[i]) ;
         checkcollision(&game.players[i], game.enemies[i]);
         manage_life(&game.players[i].l);
-        /*
+        if (game.players[i].enigma_up == 2)
+            game.players[i].enigma_up = 0;
+        else if (game.players[i].enigma_up == 3){
+            game.players[i].enigma_up = 0;
+            game.players[i].l.val--;
+        }
+        
         if (game.players[i].l.val == 1)
-            initGame(game.nb_players, game.player_name);
+            initGame(game.nb_players, game.player_name, tops);
         if ((game.bg[0].camera.x >= 14700) && (game.players[i].l.val > 1))
-            initGame(game.nb_players, game.player_name);*/
+            initGame(game.nb_players, game.player_name, tops);
         manage_score(&game.players[i], i);
         updateTimer(&game.players[i].t);
         scrollBackground(&game.bg[i], game.players[i].direction, game.players[i].acceleration, game.players[i].speed, dt);

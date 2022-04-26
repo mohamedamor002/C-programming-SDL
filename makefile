@@ -1,5 +1,5 @@
-prog: main.o text.o button.o menu.o player.o game_background.o music.o minimap.o enemy.o game.o tictac.o graphics.o core.o store.o enigmaphoto.o enigmatext.o choices.o backgroundenigma.o save.o
-	gcc Compile/main.o Compile/text.o Compile/button.o Compile/menu.o Compile/player.o Compile/game_background.o Compile/minimap.o Compile/enemy.o Compile/music.o Compile/tictac.o Compile/save.o Compile/graphics.o Compile/core.o Compile/store.o Compile/game.o Compile/enigmaphoto.o Compile/enigmatext.o Compile/choices.o Compile/backgroundenigma.o -o game -lSDL -g -lSDL_image -lSDL_mixer -lSDL_ttf
+prog: main.o text.o button.o menu.o player.o game_background.o music.o minimap.o enemy.o game.o enigma.o tictac.o graphics.o core.o store.o save.o
+	gcc Compile/main.o Compile/text.o Compile/button.o Compile/menu.o Compile/player.o Compile/enigma.o Compile/game_background.o Compile/minimap.o Compile/enemy.o Compile/music.o Compile/tictac.o Compile/save.o Compile/graphics.o Compile/core.o Compile/store.o Compile/game.o -o game -lSDL -g -lSDL_image -lSDL_mixer -lSDL_ttf
 main.o:main.c
 	gcc -c main.c -g -o Compile/main.o
 button.o:Scripts/Sources/button.c
@@ -28,14 +28,7 @@ core.o:Scripts/TicTacToe/core.c
 	gcc -c Scripts/TicTacToe/core.c -g -o Compile/core.o
 store.o:Scripts/TicTacToe/store.c
 	gcc -c Scripts/TicTacToe/store.c -g -o Compile/store.o
-enigmatext.o: Scripts/Sources/Enigma/enigmatext.c
-	gcc -c Scripts/Sources/Enigma/enigmatext.c -g -o Compile/enigmatext.o
-enigmaphoto.o: Scripts/Sources/Enigma/enigmaphoto.c
-	gcc -c Scripts/Sources/Enigma/enigmaphoto.c -g -o Compile/enigmaphoto.o
-choices.o:Scripts/Sources/Enigma/choices.c
-	gcc -c Scripts/Sources/Enigma/choices.c -g -o Compile/choices.o
-backgroundenigma.o:Scripts/Sources/Enigma/backgroundenigma.c
-	gcc -c Scripts/Sources/Enigma/backgroundenigma.c -g -o Compile/backgroundenigma.o
 save.o:Scripts/Sources/save.c
 	gcc -c Scripts/Sources/save.c -g -o Compile/save.o
-		
+enigma.o:Scripts/Sources/enigma.c
+	gcc -c Scripts/Sources/enigma.c -g -o Compile/enigma.o		

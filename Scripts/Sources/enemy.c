@@ -84,15 +84,15 @@ void checkcollision(player * P, Enemy E) //P is the player who will look dead if
 {
   int collision;
   collision = CollisonBB( * P, E);
-  if ((collision == 1)) {
-    P -> l.val -- ;
-	P -> s . value_score -= 500;
-  if (P -> nb == 0)
-    P -> pos.x = 50;
-  else 
-    P -> pos.x = (1916/2) + 50;
-
-  }
+  if (collision == 1) {
+    P -> s . value_score -= 500;
+    P->enigma_up = 1;
+    swapEnigma(&P->e);
+    if (P -> nb == 0)
+      P -> pos.x = 50;
+    else 
+      P -> pos.x = (1916/2) + 50;
+    }
 }
 
 void moveIA(player * P, Enemy * E){
