@@ -72,8 +72,8 @@ player;
 
 
 
-void initPlayerSingle(player * p, int posx, int score);
-void initPlayerMulti(player * p, int p_index);
+void initPlayerSingle(player * p, int posx, int score, int clothes_index);
+void initPlayerMulti(player * p, int p_index, int clothes_index);
 void displayplayer(player p, SDL_Surface * screen);
 void moveplayer(player * p, int dt);
 void animeplayer(player * p);

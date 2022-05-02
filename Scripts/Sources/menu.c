@@ -4,10 +4,11 @@
 
 //#include "../TicTacToe/tictac.h"
 
-char * MENU_BG_PATHS[4] = {
+char * MENU_BG_PATHS[5] = {
     "Media/Menu/menu_bg1.png",
     "Media/Menu/menu_bg2.png",
     "Media/Menu/menu_bg3.png",
+    "Media/Menu/menu_bg4.png",
     "Media/Menu/menu_bg4.png",
 };
 
@@ -15,7 +16,7 @@ Menu menu;
 Text nameText;
 Text Volume;
 Text BestScore; 
-
+Text ClothesText;
 saved s; 
 
 void initMenu(){
@@ -24,7 +25,7 @@ void initMenu(){
     initSound("Media/music.mp3");
     initHomePage();
     menu.lamin_but = initButton(1700, 800, 100, 100, "", "");
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < 5; i++){
         menu.bg[i].rect.x = 0;
         menu.bg[i].rect.y = 0;
         menu.bg[i].rect.w = 1916;
@@ -80,6 +81,17 @@ void initBestScorePage(){
         BestScore = initText(text, 670, 480, 200, 200, 200, "Fonts/Dancing.ttf", 100);
 }
 
+void initClothesPage(){
+    menu.currentMenuPage = 4;
+    menu.currentActiveButtonIndex = 0;
+    menu.number_of_buttons = 0;
+    menu.startButtonIndex = 0;
+    menu.c = initClothes(); 
+    char text[50] = "CURRENT SKIN:";
+    if (ClothesText.font == NULL)
+        ClothesText = initText(text, 670, 480, 255, 255, 255, "Fonts/Dancing.ttf", 75);
+
+}
 
 void displayMenu(SDL_Surface * screen){
     SDL_BlitSurface(menu.bg[menu.currentMenuPage].img, NULL, screen, &menu.bg[menu.currentMenuPage].rect);
@@ -96,7 +108,10 @@ void displayMenu(SDL_Surface * screen){
         display_text(&Volume, screen);
     else if (menu.currentMenuPage == 3)
         display_text(&BestScore, screen);
-    
+    else if (menu.currentMenuPage == 4){
+        display_text(&ClothesText, screen);
+        displayClothesPage(menu.c, screen);
+    }
 }   
 
 void handleMenuHomeButtonClick( SDL_Event event, int * game_loop){
@@ -184,6 +199,9 @@ void handleHomePageEvents(SDL_Event event, int * game_loop, int * currentPage, i
                     break;
                 case SDLK_RETURN:
                     handleMenuHomeButtonClick(event, game_loop);
+                    break;
+                case SDLK_l:
+                    initClothesPage();
                     break;
             }
             break;
@@ -291,7 +309,7 @@ void handleNameSelectionPageEvents(SDL_Event event, int * game_loop, int * curre
                             menu.currentMenuPage = 0;
                             menu.currentActiveButtonIndex = 0;
                             menu.number_of_buttons = 4;
-                            initGame(menu.nb, nameText.text_string, &s);
+                            initGame(menu.nb, nameText.text_string, &s, menu.c.currentCloth);
                         }
                         break ;
                 }
@@ -339,13 +357,44 @@ void handleSettingsPageEvents(SDL_Event event, int * game_loop, int * currentPag
                     break;
                 case SDLK_ESCAPE:
                     initHomePage();
-
+                    break;
             }
 
             break;
       }
   }
 
+}
+
+void handleClothPageEvents(SDL_Event event, int * game_loop){
+    while(SDL_PollEvent(&event)){
+      switch(event.type)
+      {   
+          case SDL_QUIT:
+            *game_loop = 0;
+            break;
+          case SDL_KEYDOWN:
+            switch(event.key.keysym.sym){
+                case SDLK_RIGHT:
+                    if (menu.c.currentCloth + 1 < menu.c.nb_clothes){
+                        menu.c.currentCloth++;
+                    } else {
+                        menu.c.currentCloth = 0;
+                    }
+                    break; 
+                case SDLK_LEFT:
+                    if (menu.c.currentCloth - 1 >= 0){
+                        menu.c.currentCloth--;
+                    } else {
+                        menu.c.currentCloth = menu.c.nb_clothes - 1;
+                    }
+                    break;
+                case SDLK_ESCAPE: 
+                    initHomePage();
+                    break; 
+            }
+      }
+    }
 }
 
 void handleMenuEvents(SDL_Event event, int * game_loop, int * currentPage, int * nb, int * tiktakon){
@@ -357,6 +406,8 @@ void handleMenuEvents(SDL_Event event, int * game_loop, int * currentPage, int *
         handleSettingsPageEvents(event, game_loop, currentPage, nb);
     } else if (menu.currentMenuPage == 3){
         handleBestScorePageEvents(event, game_loop, currentPage);
+    } else if (menu.currentMenuPage == 4){
+        handleClothPageEvents(event, game_loop);
     }
 }
 

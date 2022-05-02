@@ -3,14 +3,18 @@
 static int multi = 0;
 int start_time; 
 
+char cloths[2][100] = {
+    "Media/Player/perso.png",
+    "Media/Player/perso1.png"
+}; 
 
-void initPlayerSingle(player * p, int posx, int score) {
+void initPlayerSingle(player * p, int posx, int score, int clothes_index) {
   p -> e = initEnigma(-1);
   p -> enigma_up = 0;
   start_time = SDL_GetTicks();
   multi = 0;
   p -> multi = 0;
-  p -> spritesheet = IMG_Load("Media/Player/perso.png");
+  p -> spritesheet = IMG_Load(cloths[clothes_index]);
   // def 50
   p -> pos.x = posx;
   p -> pos.y = 490;
@@ -34,14 +38,14 @@ void initPlayerSingle(player * p, int posx, int score) {
 
 }
 
-void initPlayerMulti(player * p, int p_index) {
+void initPlayerMulti(player * p, int p_index, int clothes_index) {
   p -> e = initEnigma(p_index);
   p -> enigma_up = 0;
   start_time = SDL_GetTicks();
   multi = 1;
   p -> multi = 1;
   p -> nb = p_index;
-  p -> spritesheet = IMG_Load("Media/Player/perso.png");
+  p -> spritesheet = IMG_Load(cloths[clothes_index]);
 
   p -> pos.x = p_index == 0 ? 50 : 50 + ( (int) 1916 / 2) ;
   p -> pos.y = 490;

@@ -78,8 +78,9 @@ void handlePlayerMovement(SDL_Event event, int * game_loop, int * currentPage){
 }
 
 
-void initGame(int nb_players, char * player_name, saved * s){
+void initGame(int nb_players, char * player_name, saved * s, int clothes_index){
     tops = s;
+    game.current_cloth = clothes_index;
     strcpy(game.player_name, player_name);
     game.nb_players = nb_players;
     int session[3] = {50, 0, 0};
@@ -92,12 +93,12 @@ void initGame(int nb_players, char * player_name, saved * s){
         }       
     }
     if (nb_players == 1){
-        initPlayerSingle(&game.players[0], session[0], session[2]);
+        initPlayerSingle(&game.players[0], session[0], session[2], game.current_cloth);
         game.mini_map[0] = init_minimap(0, 0, session[1]);
         initEnemy(&game.enemies[0], 0);
     } else
         for (int i = 0; i < nb_players; i++){
-            initPlayerMulti(&game.players[i], i);
+            initPlayerMulti(&game.players[i], i, game.current_cloth);
             game.mini_map[i] = init_minimap(1, i, 0);
             initEnemy(&game.enemies[i], i);
         }
@@ -144,9 +145,9 @@ void updateGame(Uint32 tick_start){
         }
         
         if (game.players[i].l.val == 1)
-            initGame(game.nb_players, game.player_name, tops);
+            initGame(game.nb_players, game.player_name, tops, game.current_cloth);
         if ((game.bg[0].camera.x >= 14700) && (game.players[i].l.val > 1))
-            initGame(game.nb_players, game.player_name, tops);
+            initGame(game.nb_players, game.player_name, tops, game.current_cloth);
         manage_score(&game.players[i], i);
         updateTimer(&game.players[i].t);
         scrollBackground(&game.bg[i], game.players[i].direction, game.players[i].acceleration, game.players[i].speed, dt);
