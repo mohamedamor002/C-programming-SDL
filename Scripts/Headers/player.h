@@ -66,6 +66,7 @@ typedef struct {
   Timer t;
   int multi;
   Enigma e;
+  int lasty;
   int enigma_up;
 }
 player;
@@ -78,7 +79,7 @@ void displayplayer(player p, SDL_Surface * screen);
 void moveplayer(player * p, int dt);
 void animeplayer(player * p);
 void jump(player * p);
-void check(player * p, int dir1, int * up);
+void check(player * p, int dir1, int * up, int col);
 score init_score(int p_index);
 void manage_score(player * p, int p_index);
 void update_player(player * p, int right, int left, int up);

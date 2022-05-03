@@ -8,6 +8,8 @@ int up[2] = {0, 0};
 int down[2] = {0, 0};
 int direction[2] = {2, 2};
 
+Box players_boxes[2];
+
 saved * tops; 
 
 void handlePlayerMovement(SDL_Event event, int * game_loop, int * currentPage){
@@ -93,14 +95,17 @@ void initGame(int nb_players, char * player_name, saved * s, int clothes_index){
         }       
     }
     if (nb_players == 1){
+        initMaskSurface();
         initPlayerSingle(&game.players[0], session[0], session[2], game.current_cloth);
         game.mini_map[0] = init_minimap(0, 0, session[1]);
         initEnemy(&game.enemies[0], 0);
+        players_boxes[0] = initBox(session[0], 490, 100, 100);
     } else
         for (int i = 0; i < nb_players; i++){
             initPlayerMulti(&game.players[i], i, game.current_cloth);
             game.mini_map[i] = init_minimap(1, i, 0);
             initEnemy(&game.enemies[i], i);
+            players_boxes[i] = initBox(i == 0 ? 50 : 50 + ( (int) 1916 / 2), 490, 100, 100);
         }
     if (nb_players == 1)
         initBackgroundSingle(&game.bg[0], session[1]);
@@ -126,15 +131,17 @@ void displayGame(SDL_Surface * screen){
 void updateGame(Uint32 tick_start){
     for (int i = 0; i < game.nb_players; i++){
         update_player(&game.players[i] , right[i], left[i], up[i]) ;  
+        updateBox(&players_boxes[i], game.players[i].pos.x, game.players[i].pos.y);
         update_acceleration(&game.players[i])  ;
         SDL_Delay(1);
         Uint32 dt = SDL_GetTicks()- tick_start;
         moveIA(&game.players[i], &game.enemies[i]);
+        int l = checkCollision(players_boxes[i], game.players[i].pos.y, game.players[i].pos.x, game.bg[i].camera.x);
         moveplayer(&game.players[i],dt);
         animeplayer(&game.players[i]);
         moveEnemy(&game.enemies[i], i);
         animateEnemy(&game.enemies[i]);
-        check(&game.players[i],direction[i], &up[i]) ;
+        check(&game.players[i],direction[i], &up[i], l) ;
         checkcollision(&game.players[i], game.enemies[i]);
         int dx = 0.5 * game.players[i].acceleration * dt * dt + game.players[i].speed * dt;
         updateWithBackground(&game.enemies[i], dx,game.players[i].direction, i);
@@ -145,7 +152,7 @@ void updateGame(Uint32 tick_start){
             game.players[i].enigma_up = 0;
             game.players[i].l.val--;
         }
-        
+
         if (game.players[i].l.val == 1)
             initGame(game.nb_players, game.player_name, tops, game.current_cloth);
         if ((game.bg[0].camera.x >= 14700) && (game.players[i].l.val > 1))

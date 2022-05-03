@@ -20,7 +20,7 @@ void initPlayerSingle(player * p, int posx, int score, int clothes_index) {
   p -> pos.y = 490;
 
   p -> direction = 2; // right
-
+  p -> lasty = 490;
   p -> acceleration = 0;
   p -> speed = 0;
   p -> speedV = 0;
@@ -49,7 +49,7 @@ void initPlayerMulti(player * p, int p_index, int clothes_index) {
 
   p -> pos.x = p_index == 0 ? 50 : 50 + ( (int) 1916 / 2) ;
   p -> pos.y = 490;
-
+  p -> lasty = 490;
   p -> direction = 2; // right
 
   p -> acceleration = 0;
@@ -102,7 +102,7 @@ void animeplayer(player * p) {
 }
 
 void jump(player * p) {
-  if (p -> pos.y == 490) {
+  if (p -> pos.y == p -> lasty) {
     p -> speedV = -50;
   }
 }
@@ -136,14 +136,21 @@ void update_acceleration(player * p) {
   }
 
 }
-void check(player * p, int dir1, int * up ) {
+void check(player * p, int dir1, int * up, int col) {
   if ((p -> speed == 0) && (p -> acceleration == 0)) {
     p -> direction = dir1; //MEMORIZATION OF THE DIRECTION OF THE player 1
   }
 
+  if (col) {
+    p -> lasty = p -> pos.y;
+    return ;
+  } else {
+    p->lasty = 490;
+  }
   p -> pos.y += p -> speedV;
   p -> speedV += 10;
-  if (p -> pos.y >= 490) {
+
+  if (p -> pos.y >= p -> lasty) {
     p -> speedV = 0; //THE player 1 GO BACK DOWN ALONE
     p -> pos.y = 490;
     *up = 0;
