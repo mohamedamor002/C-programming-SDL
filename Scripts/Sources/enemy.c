@@ -65,6 +65,12 @@ void updateWithBackground(Enemy * E, int dt, int dir, int index){
         posMax += dt; 
         E->pos.x += dt; 
     }     
+    if (index == 1){
+      if (dir == 0 && E->pos.x <= 1916/2 && E->pos.x > 0)
+        E->pos.x = -200;
+      else if (dir == 1 && E->pos.x > -10)
+        E->pos.x = 1916/2;
+    }
     if (E->pos.x > 3000 || E->pos.x < -3000){
       posMax = 700;
       posMin = 300;
