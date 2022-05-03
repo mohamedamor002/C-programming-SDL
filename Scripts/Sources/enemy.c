@@ -1,5 +1,9 @@
 #include "../Headers/enemy.h"
 
+int posMax = 700;
+int posMin = 300;
+
+
 void initEnemy(Enemy * E, int p_index) {
   E -> pic[0] = IMG_Load("Media/Enemy/stand1.png");
   E -> pic[1] = IMG_Load("Media/Enemy/right4.png");
@@ -49,6 +53,23 @@ void moveEnemy(Enemy * E, int index) {
   } else {
     E -> pos.x--;
   }
+}
+
+void updateWithBackground(Enemy * E, int dt, int dir, int index){
+    if (dir == 0){
+        posMin += dt;
+        posMax -= dt; 
+        E->pos.x -= dt; 
+      } else {
+        posMin -= dt;
+        posMax += dt; 
+        E->pos.x += dt; 
+    }     
+    if (E->pos.x > 3000 || E->pos.x < -3000){
+      posMax = 700;
+      posMin = 300;
+      E->pos.x = 580 + (1916 / 2) * index;
+    }
 }
 
 

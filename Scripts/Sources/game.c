@@ -136,6 +136,8 @@ void updateGame(Uint32 tick_start){
         animateEnemy(&game.enemies[i]);
         check(&game.players[i],direction[i], &up[i]) ;
         checkcollision(&game.players[i], game.enemies[i]);
+        int dx = 0.5 * game.players[i].acceleration * dt * dt + game.players[i].speed * dt;
+        updateWithBackground(&game.enemies[i], dx,game.players[i].direction, i);
         manage_life(&game.players[i].l);
         if (game.players[i].enigma_up == 2)
             game.players[i].enigma_up = 0;
