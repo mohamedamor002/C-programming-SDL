@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "minimap.h": "c"
+        "minimap.h": "c",
+        "animation.h": "c",
+        "enemy.h": "c"
     }
 }

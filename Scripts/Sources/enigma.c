@@ -84,6 +84,38 @@ void handleEnigmaEvents(SDL_Event event, int * game_loop, Enigma * e,  int * eni
                 else if (e->currentButton != i)
                     updateButtonState(e -> choices[e->currentEnigma][i], 0);
             break;
+        case SDL_KEYDOWN:
+            switch(event.key.keysym.sym){
+                case SDLK_LEFT:
+                    if (e -> currentButton == -1)
+                        e -> currentButton = ((e -> er[e -> currentEnigma] )- 1); 
+                    else 
+                        e -> currentButton = e -> currentButton - 1;
+                    for (int i = 0; i< e -> er[e -> currentEnigma]; i++)
+                        if (i == e->currentButton)
+                            updateButtonState(e -> choices[e->currentEnigma][i], 1);
+                        else
+                            updateButtonState(e -> choices[e->currentEnigma][i], 0);
+                    break;
+                case SDLK_RIGHT: 
+                    if (e -> currentButton == (e -> er[e -> currentEnigma]) - 1)
+                        e -> currentButton = 0; 
+                    else 
+                        e -> currentButton = e -> currentButton + 1;
+                    for (int i = 0; i< e -> er[e -> currentEnigma]; i++)
+                        if (i == e->currentButton)
+                            updateButtonState(e -> choices[e->currentEnigma][i], 1);
+                        else
+                            updateButtonState(e -> choices[e->currentEnigma][i], 0);
+                    break;
+                case SDLK_RETURN:
+                    if ((e->currentButton != -1) && (e->currentButton == e->right[e->currentEnigma] - 1))
+                        *enigma_up = 2;
+                    else if ((e->currentButton != -1) && (e->currentButton != e->right[e->currentEnigma] - 1))
+                        *enigma_up = 3;
+                    break;
+
+            }
 
     }
 }

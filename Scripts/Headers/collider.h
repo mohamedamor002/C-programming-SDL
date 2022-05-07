@@ -19,11 +19,11 @@ typedef struct {
     int y;
     int w;
     int h;
-} Box; 
+} Box_C; 
 
 
 SDL_Color GetPixelColor(const SDL_Surface* pSurface, const int X, const int Y);
 void initMaskSurface();
-Box initBox(int x, int y, int w, int h);
-void updateBox(Box * b, int x, int y );
-int checkCollision(Box b, int y, int x, int cx);
+void initBox(int x, int y, int w, int h, int p_index);
+void updateBox(int p_index, int x, int y );
+int checkCollision(int p_index, int y, int x, int cx);

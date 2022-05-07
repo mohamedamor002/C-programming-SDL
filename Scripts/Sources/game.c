@@ -8,7 +8,7 @@ int up[2] = {0, 0};
 int down[2] = {0, 0};
 int direction[2] = {2, 2};
 
-Box players_boxes[2];
+
 
 saved * tops; 
 
@@ -95,18 +95,24 @@ void initGame(int nb_players, char * player_name, saved * s, int clothes_index){
         }       
     }
     if (nb_players == 1){
+        initAnim1(0);
+        initAnim2(0, 0);
         initMaskSurface();
         initPlayerSingle(&game.players[0], session[0], session[2], game.current_cloth);
         game.mini_map[0] = init_minimap(0, 0, session[1]);
         initEnemy(&game.enemies[0], 0);
-        players_boxes[0] = initBox(session[0], 490, 100, 100);
-    } else
+        initBox(session[0], 490, 100, 100, 0);
+    } else {
         for (int i = 0; i < nb_players; i++){
+            initAnim1(i);
+            initAnim2(i, 1);
             initPlayerMulti(&game.players[i], i, game.current_cloth);
             game.mini_map[i] = init_minimap(1, i, 0);
             initEnemy(&game.enemies[i], i);
-            players_boxes[i] = initBox(i == 0 ? 50 : 50 + ( (int) 1916 / 2), 490, 100, 100);
         }
+        //initBox(50, 490, 100, 100, 0);
+        //initBox(958, 490, 100, 100, 1);
+    }
     if (nb_players == 1)
         initBackgroundSingle(&game.bg[0], session[1]);
     else 
@@ -120,23 +126,27 @@ void displayGame(SDL_Surface * screen){
             displayEnigma(game.players[i].e, screen);
             continue;
         }
+
         displayBackground(game.bg[i], screen);
         displayplayer(game.players[i] ,screen);
         display_minimap(game.mini_map[i], screen);
         display_all(game.players[i], screen);
         displayEnemy(game.enemies[i], screen);
+        displayAnime(screen, i);
     }
 }
 
 void updateGame(Uint32 tick_start){
     for (int i = 0; i < game.nb_players; i++){
+        updateAnim1(i);
+        updateAnim2(game.nb_players - 1, i);
         update_player(&game.players[i] , right[i], left[i], up[i]) ;  
-        updateBox(&players_boxes[i], game.players[i].pos.x, game.players[i].pos.y);
+        updateBox(i, game.players[i].pos.x, game.players[i].pos.y);
         update_acceleration(&game.players[i])  ;
         SDL_Delay(1);
         Uint32 dt = SDL_GetTicks()- tick_start;
         moveIA(&game.players[i], &game.enemies[i]);
-        int l = checkCollision(players_boxes[i], game.players[i].pos.y, game.players[i].pos.x, game.bg[i].camera.x);
+        int l = checkCollision(i, game.players[i].pos.y, game.players[i].pos.x, game.bg[i].camera.x);
         moveplayer(&game.players[i],dt);
         animeplayer(&game.players[i]);
         moveEnemy(&game.enemies[i], i);

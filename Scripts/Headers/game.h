@@ -2,6 +2,7 @@
 #include "enemy.h"
 #include "save.h"
 #include "collider.h"
+#include "animation.h"
 
 typedef struct  {
     int nb_players; 
