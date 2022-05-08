@@ -146,15 +146,31 @@ void updateGame(Uint32 tick_start){
         SDL_Delay(1);
         Uint32 dt = SDL_GetTicks()- tick_start;
         moveIA(&game.players[i], &game.enemies[i]);
-        int l = checkCollision(i, game.players[i].pos.y, game.players[i].pos.x, game.bg[i].camera.x);
-        moveplayer(&game.players[i],dt);
+        int l = checkCollisionFloor(i, game.players[i].pos.y, game.players[i].pos.x, game.bg[i].camera.x, game.bg[i].camera.y);
+        int s = checkCollisionSides(i, game.players[i].pos.y, game.players[i].pos.x, game.bg[i].camera.x, game.bg[i].camera.y);
+        if (l == 0)
+            if (s == 2)
+                game.players[i].pos.x -= 10;
+            else if (s == 3)
+                game.players[i].pos.x += 10;
+        if (s == 0 || l == 1){
+            moveplayer(&game.players[i],dt, s);
+        } else if ((game.players[i].direction == 2) && (s == 3)){
+            moveplayer(&game.players[i],dt, s);
+        } else if  ((game.players[i].direction == 3) && (s == 2)) {
+            moveplayer(&game.players[i],dt, s);
+        }
+        if ((s == 0) || ((game.players[i].direction == 3) && (s == 2)) || ((game.players[i].direction == 2) && (s == 3)) )
+            scrollBackground(&game.bg[i], game.players[i].direction, game.players[i].acceleration, game.players[i].speed, dt, game.players[i].pos.y);
+        else 
+            game.bg[i].lastx =game.bg[i].camera.x;
         animeplayer(&game.players[i]);
         moveEnemy(&game.enemies[i], i);
         animateEnemy(&game.enemies[i]);
         check(&game.players[i],direction[i], &up[i], l) ;
         checkcollision(&game.players[i], game.enemies[i]);
         int dx = 0.5 * game.players[i].acceleration * dt * dt + game.players[i].speed * dt;
-        updateWithBackground(&game.enemies[i], dx,game.players[i].direction, i);
+        updateWithBackground(&game.enemies[i], game.bg[i].camera.x, game.bg[i].lastx, game.players[i].direction, i);
         manage_life(&game.players[i].l);
         if (game.players[i].enigma_up == 2)
             game.players[i].enigma_up = 0;
@@ -169,7 +185,7 @@ void updateGame(Uint32 tick_start){
             initGame(game.nb_players, game.player_name, tops, game.current_cloth);
         manage_score(&game.players[i], i);
         updateTimer(&game.players[i].t);
-        scrollBackground(&game.bg[i], game.players[i].direction, game.players[i].acceleration, game.players[i].speed, dt);
+        game.enemies[i].pos.y = 490 + (490 - game.players[i].pos.y);
         update_mini(&game.mini_map[i], &game.players[i], game.bg[i], i);
     }
 }

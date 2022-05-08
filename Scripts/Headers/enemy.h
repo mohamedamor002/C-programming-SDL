@@ -17,7 +17,7 @@ void liberateEnemy(Enemy E);
 void initEnemy(Enemy * E , int p_index);
 void displayEnemy(Enemy E, SDL_Surface * screen);
 void animateEnemy(Enemy * E);
-void updateWithBackground(Enemy * E, int dt, int dir, int index);
+void updateWithBackground(Enemy * E, int cx, int lx, int dir, int index);
 void moveEnemy(Enemy * E, int index);
 int CollisonBB(player P, Enemy E);
 void checkcollision(player * P, Enemy E);

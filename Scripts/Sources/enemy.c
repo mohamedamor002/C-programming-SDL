@@ -55,15 +55,17 @@ void moveEnemy(Enemy * E, int index) {
   }
 }
 
-void updateWithBackground(Enemy * E, int dt, int dir, int index){
+void updateWithBackground(Enemy * E, int cx, int lx, int dir, int index){
+    if (cx == lx)
+      return;
     if (dir == 0){
-        posMin += dt;
-        posMax -= dt; 
-        E->pos.x -= dt; 
+        posMin += abs(cx - lx);
+        posMax -= abs(cx - lx); 
+        E->pos.x -= abs(cx - lx); 
       } else {
-        posMin -= dt;
-        posMax += dt; 
-        E->pos.x += dt; 
+        posMin -= abs(cx - lx);
+        posMax += abs(cx - lx); 
+        E->pos.x += abs(cx - lx); 
     }     
     if (index == 1){
       if (dir == 0 && E->pos.x <= 1916/2 && E->pos.x > 0)
@@ -72,9 +74,15 @@ void updateWithBackground(Enemy * E, int dt, int dir, int index){
         E->pos.x = 1916/2;
     }
     if (E->pos.x > 3000 || E->pos.x < -3000){
-      posMax = 700;
-      posMin = 300;
-      E->pos.x = 580 + (1916 / 2) * index;
+      if (dir == 1){
+        posMax = 400 + (1916 / 2) * index;
+        posMin = 0 + (1916 / 2) * index;
+        E->pos.x = (1916 / 2) * index;
+      } else if (dir == 0){
+        posMax = (1916 / 2) * index;
+        posMin = (1916 / 2) * index - 400;
+        E->pos.x =  (1916/2) + (1916 / 2) * index;
+      }
     }
 }
 
@@ -98,10 +106,11 @@ void animateEnemy(Enemy * E) {
 
 int CollisonBB(player P, Enemy E) {
   int collision;
-  if ((P.pos.w + P.pos.x < E.pos.x) || (P.pos.x > E.pos.x + E.pos.w) || (P.pos.h + P.pos.y < E.pos.y) || (P.pos.y > E.pos.y + E.pos.h)) {
-    collision = 0;
+  if ( ((P.pos.x >= E.pos.x - abs(P.speed) * 2) && (P.pos.x <= abs(P.speed) * 2 + E.pos.x + E.pos.w)) || ((P.pos.x + P.pos.w >= E.pos.x - abs(P.speed) * 2) &&  (P.pos.x + P.pos.w < abs(P.speed) * 2 + E.pos.x + E.pos.w) ) ) {
+    if ((P.pos.y >= E.pos.y) || (P.pos.y + P.pos.h >= E.pos.y))
+      collision = 1;
   } else {
-    collision = 1;
+    collision = 0;
   }
   return collision;
 }

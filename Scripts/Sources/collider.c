@@ -35,12 +35,32 @@ void updateBox(int p_index, int x, int y ){
     Boxes[p_index].y = y; 
 }
 
-int checkCollision(int p_index, int y, int x, int cx){
+int checkCollisionSides(int p_index, int y, int x, int cx, int cy){
+    for (int i = Boxes[p_index].y; i < Boxes[p_index].y + Boxes[p_index].h; i++ ){
+        SDL_Color color = GetPixelColor(mask, cx + Boxes[p_index].x + Boxes[p_index].w, cy + i);
+        if (color.r == color.b && color.g == color.r && color.r == 0){
+            return 2;  
+        }
+    }
+    // checking back
+    for (int i = Boxes[p_index].y; i < Boxes[p_index].y + Boxes[p_index].h; i++ ){
+        SDL_Color color = GetPixelColor(mask, cx + Boxes[p_index].x, cy + i);
+        if (color.r == color.b && color.g == color.r && color.r == 0){
+            return 3;  
+        }
+    }
+    return 0;
+}
+
+int checkCollisionFloor(int p_index, int y, int x, int cx, int cy){
     for (int i = Boxes[p_index].x; i < Boxes[p_index].x + Boxes[p_index].w; i++ ){
-        SDL_Color color = GetPixelColor(mask, cx + i, Boxes[p_index].y + Boxes[p_index].h);
+        SDL_Color color = GetPixelColor(mask, cx + i, cy + Boxes[p_index].y + Boxes[p_index].h);
         if (color.r == color.b && color.g == color.r && color.r == 0){
             return 1;  
         }
     }
+    // checking front
+
+
     return 0;
 }

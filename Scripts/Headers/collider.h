@@ -26,4 +26,5 @@ SDL_Color GetPixelColor(const SDL_Surface* pSurface, const int X, const int Y);
 void initMaskSurface();
 void initBox(int x, int y, int w, int h, int p_index);
 void updateBox(int p_index, int x, int y );
-int checkCollision(int p_index, int y, int x, int cx);
+int checkCollisionSides(int p_index, int y, int x, int cx, int cy);
+int checkCollisionFloor(int p_index, int y, int x, int cx, int cy);

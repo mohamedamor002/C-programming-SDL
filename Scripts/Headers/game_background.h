@@ -19,6 +19,7 @@ typedef struct {
   SDL_Rect rect;
   SDL_Surface * bg_img;
   SDL_Rect camera;
+  int lastx;
 
 } Background;
 
@@ -26,4 +27,4 @@ typedef struct {
 void initBackgroundSingle(Background * bg, int session);
 void initBackgroundMulti(Background * bg, int bg_index);
 void displayBackground(Background bg, SDL_Surface * screen);
-void scrollBackground(Background * bg, int direction, double acc, double speed, int dt);
+void scrollBackground(Background * bg, int direction, double acc, double speed, int dt, int py);

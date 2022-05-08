@@ -14,6 +14,33 @@ int stringTointeger1(char * str)
     return temp;
 }
 
+void loadTextEnigmasFromFile(TextEnigma * e, int p_index){
+    if (p_index == -1)
+        p_index = 0;
+    FILE *f; 
+    f = fopen( "enigmas_text", "r");
+    char count[10]; 
+    fscanf(f, "%s\n", count);
+    e->enigmasCount = stringTointeger1(count);
+    for (int i = 0; i < e->enigmasCount; i++){
+        char question[100];
+        fscanf(f, "%s ", question);
+        e->er[i] = 4;
+        char right_index[10];
+        fscanf(f, "%s\n", right_index);
+        e->right[i] = stringTointeger1(right_index);
+        e->question[i] = initText(question, (1916/2) * p_index + 10, 20, 0, 0, 0, "Fonts/Dancing.ttf", 50);
+        for (int j = 0; j < e->er[i]; j++){
+            char answer[100];
+            if (j + 1 == e->er[i])
+                fscanf(f, "%s\n", answer);
+            else 
+                fscanf(f, "%s ", answer);
+            e->choices[i][j] = initText(answer, (1916/2) * p_index + (150 * j), 200, 0, 0, 0, "Fonts/Dancing.ttf", 25);
+        }
+    }
+}
+
 void loadEnigmasFromFile(Enigma * e, int p_index){
     if (p_index == -1)
         p_index = 0;

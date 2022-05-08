@@ -1,4 +1,3 @@
-#include "text.h"
 #include "clothes.h"
 
 typedef struct {

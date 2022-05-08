@@ -74,7 +74,7 @@ void displayplayer(player p, SDL_Surface * screen) {
   SDL_BlitSurface(p.spritesheet, & p.pos_sprite, screen, & p.pos);
 }
 
-void moveplayer(player * p, int dt) {
+void moveplayer(player * p, int dt, int col) {
   double dx;
   dx = 0.5 * p -> acceleration * dt * dt + p -> speed * dt;
   if (p -> direction == 0) // || (p->direction==2)
@@ -141,7 +141,7 @@ void check(player * p, int dir1, int * up, int col) {
     p -> direction = dir1; //MEMORIZATION OF THE DIRECTION OF THE player 1
   }
 
-  if (col) {
+  if (col == 1) {
     p -> lasty = p -> pos.y;
     return ;
   } else {
