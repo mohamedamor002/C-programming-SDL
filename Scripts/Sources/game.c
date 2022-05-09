@@ -7,15 +7,19 @@ int left[2] = {0, 0};
 int up[2] = {0, 0};
 int down[2] = {0, 0};
 int direction[2] = {2, 2};
-
+int et = 1; 
 
 
 saved * tops; 
 
 void handlePlayerMovement(SDL_Event event, int * game_loop, int * currentPage){
     for (int i = 0; i < game.nb_players; i++)
-        if (game.players[i].enigma_up == 1)
-            handleEnigmaEvents(event, game_loop, &game.players[i].e, &game.players[i].enigma_up);
+        if (game.players[i].enigma_up == 1){
+            if (!et)
+                handleEnigmaEvents(event, game_loop, &game.players[i].e, &game.players[i].enigma_up);
+            else 
+                handleTextEnigmaEvents(event, game_loop, &game.players[i].te, &game.players[i].enigma_up);
+        }
     switch (event.type) {
         case SDL_QUIT:
             *game_loop = 0;
@@ -123,7 +127,11 @@ void initGame(int nb_players, char * player_name, saved * s, int clothes_index){
 void displayGame(SDL_Surface * screen){
     for (int i = 0; i < game.nb_players; i++){
         if (game.players[i].enigma_up == 1){
-            displayEnigma(game.players[i].e, screen);
+            if (!et)
+                displayEnigma(game.players[i].e, screen);
+            else 
+                displayTextEnigma(game.players[i].te, screen);
+            
             continue;
         }
 
@@ -172,11 +180,18 @@ void updateGame(Uint32 tick_start){
         int dx = 0.5 * game.players[i].acceleration * dt * dt + game.players[i].speed * dt;
         updateWithBackground(&game.enemies[i], game.bg[i].camera.x, game.bg[i].lastx, game.players[i].direction, i);
         manage_life(&game.players[i].l);
-        if (game.players[i].enigma_up == 2)
+        if (game.players[i].enigma_up == 2){
             game.players[i].enigma_up = 0;
+            swapEnigma(&game.players[i].e);
+            swapTextEnigma(&game.players[i].te);
+            et = !et; 
+        }
         else if (game.players[i].enigma_up == 3){
             game.players[i].enigma_up = 0;
             game.players[i].l.val--;
+            swapEnigma(&game.players[i].e);
+            swapTextEnigma(&game.players[i].te);
+            et = !et; 
         }
 
         if (game.players[i].l.val == 1)

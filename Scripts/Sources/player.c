@@ -10,6 +10,7 @@ char cloths[2][100] = {
 
 void initPlayerSingle(player * p, int posx, int score, int clothes_index) {
   p -> e = initEnigma(-1);
+  p -> te = initTextEnigma(-1);
   p -> enigma_up = 0;
   start_time = SDL_GetTicks();
   multi = 0;
@@ -40,6 +41,7 @@ void initPlayerSingle(player * p, int posx, int score, int clothes_index) {
 
 void initPlayerMulti(player * p, int p_index, int clothes_index) {
   p -> e = initEnigma(p_index);
+  p -> te = initTextEnigma(p_index);
   p -> enigma_up = 0;
   start_time = SDL_GetTicks();
   multi = 1;

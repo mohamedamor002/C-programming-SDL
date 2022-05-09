@@ -66,6 +66,7 @@ typedef struct {
   Timer t;
   int multi;
   Enigma e;
+  TextEnigma te; 
   int lasty;
   int enigma_up;
 }

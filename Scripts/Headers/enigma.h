@@ -37,3 +37,7 @@ Enigma initEnigma(int p_index);
 void swapEnigma(Enigma * e);
 void displayEnigma(Enigma e, SDL_Surface * screen);
 void handleEnigmaEvents(SDL_Event event, int * game_loop, Enigma * e,  int * enigma_up);
+TextEnigma initTextEnigma(int p_index);
+void swapTextEnigma(TextEnigma * e);
+void handleTextEnigmaEvents(SDL_Event event, int * game_loop, TextEnigma * e,  int * enigma_up);
+void displayTextEnigma(TextEnigma e, SDL_Surface * screen);

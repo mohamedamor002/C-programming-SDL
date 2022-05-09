@@ -19,3 +19,4 @@ typedef struct {
 Text initText(char * text_string, int x, int y, int r, int g, int b, char * font, int font_size);
 void display_text(Text * t, SDL_Surface* screen );
 void update_text(Text * t, char new_text_char);
+int checkTextHover(Text * t, int x, int y);

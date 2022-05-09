@@ -122,8 +122,8 @@ void checkcollision(player * P, Enemy E) //P is the player who will look dead if
   collision = CollisonBB( * P, E);
   if (collision == 1) {
     P -> s . value_score -= 500;
-    P->enigma_up = 1;
-    swapEnigma(&P->e);
+    if (P->enigma_up != 1)
+      P->enigma_up = 1;
     if (P -> nb == 0)
       P -> pos.x = 50;
     else 
