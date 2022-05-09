@@ -11,7 +11,7 @@ typedef struct {
     TTF_Font  * font ;
     SDL_Surface * surface ;
     SDL_Color color ;
-    char text_string[50];
+    char text_string[200];
     int text_length; 
 } Text; 
 
